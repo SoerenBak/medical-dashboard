@@ -29,7 +29,7 @@ export default {
     const router = useRouter()
 
     const enterDashboard = () => {
-        router.push({ name: 'Dashboard '})
+        router.push({ name: 'Dashboard'})
     }
 
     return { showLogin, enterDashboard }
