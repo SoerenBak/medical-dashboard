@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Welcome from '../views/Welcome.vue'
 import Dashboard from '../views/Dashboard.vue'
+import Patients from '../views/Patients.vue'
 import { projectAuth } from '@/firebase/config'
 
 const requireAuth = (to, from, next) => {
@@ -23,7 +24,13 @@ const routes = [
     name: 'Dashboard',
     component: Dashboard,
     beforeEnter: requireAuth
- }
+ },
+ {
+   path: '/dashboard/patients',
+   name: 'Patients',
+   component: Patients,
+   beforeEnter: requireAuth
+}
 ]
 
 const router = createRouter({

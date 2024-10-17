@@ -1,6 +1,6 @@
 // Import the necessary functions from Firebase SDK
 import { initializeApp } from 'firebase/app';
-import { getFirestore, serverTimestamp } from 'firebase/firestore';
+import { getFirestore, collection, serverTimestamp } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 // Firebase configuration
@@ -20,8 +20,11 @@ const firebaseApp = initializeApp(firebaseConfig);
 const projectAuth = getAuth(firebaseApp);
 const projectFirestore = getFirestore(firebaseApp);
 
+// Access a collection (replace 'your-collection-name' with your actual collection name)
+const yourCollection = collection(projectFirestore, 'patients');
+
 // Get server timestamp
 const timestamp = serverTimestamp();
 
 // Exporting the initialized services
-export { projectAuth, projectFirestore, timestamp };
+export { projectAuth, projectFirestore, yourCollection, timestamp };
