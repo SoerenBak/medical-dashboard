@@ -10,7 +10,6 @@ const getPatients = () => {
     try {
       const res = await getDocs(collection(projectFirestore, 'patients'))
 
-      // Map Firestore document data to your patient objects
       patients.value = res.docs.map(doc => {
         const data = doc.data()
         return {
@@ -20,6 +19,8 @@ const getPatients = () => {
           Gender: data.Gender,
           DateofBirth: data.DateofBirth,
           BloodType: data.BloodType,
+          Email: data.Email,
+          Phone: data.Phone,
         }
       })
     } catch (err) {
