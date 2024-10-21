@@ -1,9 +1,11 @@
 <template>
-  <div class="post">
+  <div>
     <!-- Router link to patient details with ID as parameter -->
     <router-link :to="{ name: 'PatientDetails', params: { id: patient.id }}">
       <h3>{{ patient.FirstName }} {{ patient.LastName }}</h3>
     </router-link>
+
+    <p>ID: {{ patient.id }}</p>
   </div>
 </template>
 
@@ -19,11 +21,5 @@ export default {
 </script>
 
 <style>
-.post h3 {
-  display: inline-block;
-  position: relative;
-  font-size: 26px;
-  color: white;
-  max-width: 400px;
-}
+
 </style>

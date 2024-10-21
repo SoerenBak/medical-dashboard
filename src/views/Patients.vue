@@ -5,13 +5,12 @@
         <PatientsList :patients="patients" />
       </div>
       <div v-else>
-        Loading
+        Loading...
       </div>
     </div>
   </template>
   
   <script>
-  import { ref } from 'vue'
   import getPatients from '../composables/getPatients'
   import PatientsList from '@/components/PatientsList.vue'
   
@@ -28,15 +27,6 @@
   </script>
   
   <style>
-  .home {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 10px;
-  }
-  .layout {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-    gap: 20px;
-  }
+  
   </style>
   

@@ -1,8 +1,15 @@
 <template>
-  <div>
-    <div class="container">
-        <Navigation />
-    </div>
+  <div class="p-4 pl-0">
+    <h1 class="text-2xl font-semibold text-gray-800 dark:text-white mb-3">Dashboard</h1>
+    <Navigation />
+
+
+    <nav>
+      <router-link to="/dashboard/patients" class="p-2 bg-blue-500 text-white rounded hover:bg-blue-600">Patients</router-link>
+      <router-link to="/dashboard/add-patient" class="p-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add New Patient</router-link>
+
+    </nav>
+
   </div>
 </template>
 
@@ -27,20 +34,5 @@ export default {
 }
 </script>
 
-<style>
-  nav {
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  nav p {
-    margin: 2px auto;
-    font-size: 16px;
-    color: #444;
-  }
-  nav p.email {
-    font-size: 14px;
-    color: #999;
-  }
+<style scoped>
 </style>

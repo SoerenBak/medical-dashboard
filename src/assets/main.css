@@ -1,5 +1,4 @@
 body {
-    background: #e3e1ff;
     color: #444;
   }
   .container {
@@ -22,4 +21,8 @@ body {
     border: 0;
     border-radius: 20px;
     padding: 10px 20px;
+  }
+
+  .material-icons {
+    display: block;
   }

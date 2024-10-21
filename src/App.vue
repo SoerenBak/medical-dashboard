@@ -1,9 +1,18 @@
+<!-- src/App.vue -->
 <template>
-  <nav>
-  </nav>
-  <router-view/>
+  <AppLayout />
 </template>
 
-<style>
+<script>
+import AppLayout from './components/AppLayout.vue';
 
+export default {
+  components: {
+    AppLayout,
+  },
+};
+</script>
+
+<style>
+/* Global styles can go here */
 </style>

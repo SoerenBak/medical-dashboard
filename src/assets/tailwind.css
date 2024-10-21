@@ -1,0 +1,18 @@
+/* src/assets/tailwind.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Example of setting up dark mode styles */
+body {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+/* Add any additional styles here */
+.app-container {
+    @apply flex items-center justify-center min-h-screen;
+  }
+  
+  .app-window {
+    /* You can define more specific styles here if necessary */
+  }
+  

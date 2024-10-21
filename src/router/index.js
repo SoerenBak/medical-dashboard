@@ -4,6 +4,7 @@ import Dashboard from '../views/Dashboard.vue'
 import Patients from '../views/Patients.vue'
 import PatientDetails from '../views/PatientDetails.vue'
 import { projectAuth } from '@/firebase/config'
+import AddPatient from '@/views/AddPatient.vue'
 
 // Route guard to ensure user is authenticated
 const requireAuth = (to, from, next) => {
@@ -38,7 +39,13 @@ const routes = [
       name: 'PatientDetails',
       component: PatientDetails,
       beforeEnter: requireAuth // Require auth for patient details too
-   }
+   },
+   {
+      path: '/dashboard/add-patient',
+      name: 'AddPatient',
+      component: AddPatient,
+      beforeEnter: requireAuth 
+    }
 ]
 
 const router = createRouter({
