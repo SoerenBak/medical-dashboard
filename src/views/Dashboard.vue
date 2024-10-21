@@ -4,10 +4,9 @@
     <Navigation />
 
 
-    <nav>
-      <router-link to="/dashboard/patients" class="p-2 bg-blue-500 text-white rounded hover:bg-blue-600">Patients</router-link>
-      <router-link to="/dashboard/add-patient" class="p-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add New Patient</router-link>
-
+    <nav class="grid grid-cols-4 gap-4">
+        <router-link to="/dashboard/patients" class="">Patients</router-link>
+        <router-link to="/dashboard/add-patient" class="">Add New Patient</router-link>
     </nav>
 
   </div>

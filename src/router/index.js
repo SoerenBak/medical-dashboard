@@ -5,6 +5,9 @@ import Patients from '../views/Patients.vue'
 import PatientDetails from '../views/PatientDetails.vue'
 import { projectAuth } from '@/firebase/config'
 import AddPatient from '@/views/AddPatient.vue'
+import AddNote from '@/components/Patients/AddNote.vue'
+import AddAllergy from '@/components/Patients/AddAllergy.vue'
+import NoteDetails from '@/components/Patients/NoteDetails.vue'
 
 // Route guard to ensure user is authenticated
 const requireAuth = (to, from, next) => {
@@ -38,12 +41,30 @@ const routes = [
       path: '/dashboard/patients/:id',
       name: 'PatientDetails',
       component: PatientDetails,
-      beforeEnter: requireAuth // Require auth for patient details too
+      beforeEnter: requireAuth
    },
    {
       path: '/dashboard/add-patient',
       name: 'AddPatient',
       component: AddPatient,
+      beforeEnter: requireAuth 
+    },
+    {
+      path: '/dashboard/patients/:id/add-note',
+      name: 'AddNote',
+      component: AddNote,
+      beforeEnter: requireAuth 
+    },
+    {
+      path: '/dashboard/patients/:id/notes/:noteId',
+      name: 'NoteDetails',
+      component: NoteDetails,
+      beforeEnter: requireAuth // Secure this route as well
+    }
+    {
+      path: '/dashboard/patients/:id/add-allergy',
+      name: 'AddAllergy',
+      component: AddAllergy,
       beforeEnter: requireAuth 
     }
 ]

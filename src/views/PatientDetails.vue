@@ -11,12 +11,17 @@
       <p>Phone: {{ patient.Phone }}</p>
       <p>Email: {{ patient.Email }}</p>
 
-      <!-- Display patient notes -->
-      <h3 class="mt-4 font-semibold">Notes</h3>
-      <ul v-if="patient.Notes && patient.Notes.length" class="list-disc pl-5">
-        <li v-for="(note, index) in patient.Notes" :key="index" class="text-gray-700 dark:text-gray-300">{{ note }}</li>
+
+      <h3 class="text-xl font-semibold mt-4">Notes</h3>
+      <ul v-if="notes.length" class="list-disc ml-5">
+        <li v-for="note in notes" :key="note.id">
+          <router-link :to="{ name: 'NoteDetails', params: { patientId: patient.id, noteId: note.id } }" class="text-blue-600 hover:underline">
+  <strong>{{ note.NoteName }}</strong>
+</router-link>
+        </li>
       </ul>
-      <p v-else class="text-gray-500">No notes available</p>
+      <p v-else>No notes available</p>
+     
     </div>
     <div v-else>
       <p>Loading patient details...</p>
@@ -25,39 +30,53 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
-import { doc, getDoc } from 'firebase/firestore'
-import { projectFirestore } from '@/firebase/config'
-import { useRoute } from 'vue-router'
+import { ref, onMounted } from 'vue';
+import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { projectFirestore } from '@/firebase/config';
+import { useRoute } from 'vue-router';
 
 export default {
   setup() {
-    const route = useRoute()
-    const patient = ref(null)
-    const error = ref(null)
+    const route = useRoute();
+    const patient = ref(null);
+    const error = ref(null);
+    const notes = ref([]);
 
     const loadPatient = async () => {
       try {
-        const docRef = doc(projectFirestore, 'patients', route.params.id)
-        const res = await getDoc(docRef)
+        const docRef = doc(projectFirestore, 'patients', route.params.id);
+        const res = await getDoc(docRef);
 
         if (!res.exists()) {
-          throw Error('Patient not found')
+          throw Error('Patient not found');
         }
 
-        patient.value = res.data()
+        patient.value = res.data();
+
+        // Load notes
+        await loadNotes(docRef);
       } catch (err) {
-        error.value = err.message
+        error.value = err.message;
       }
-    }
+    };
+
+    const loadNotes = async (patientDocRef) => {
+      try {
+        const notesRef = collection(patientDocRef, 'Notes');
+        const notesSnapshot = await getDocs(notesRef);
+        notes.value = notesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      } catch (err) {
+        error.value = `Error fetching notes: ${err.message}`;
+      }
+    };
 
     onMounted(() => {
-      loadPatient()
-    })
+      loadPatient();
+    });
 
-    return { patient, error }
-  }
-}
+    return { patient, error, notes };
+  },
+};
 </script>
 
 <style scoped>
