@@ -9,6 +9,8 @@ import AddNote from '@/components/Patients/AddNote.vue'
 import AddAllergy from '@/components/Patients/AddAllergy.vue'
 import NoteDetails from '@/components/Patients/NoteDetails.vue'
 import AllergyDetails from '@/components/Patients/AllergyDetails.vue'
+import PatientChart from '@/components/Dashboard/PatientChart.vue'
+import UnreadMessages from '@/components/Dashboard/UnreadMessages.vue'
 
 // Route guard to ensure user is authenticated
 const requireAuth = (to, from, next) => {
@@ -72,6 +74,18 @@ const routes = [
       path: '/dashboard/patients/:id/allergies/:allergyId',
       name: 'AllergyDetails',
       component: AllergyDetails,
+      beforeEnter: requireAuth
+    },
+    {
+      path: '/dashboard/patients/patient-chart',
+      name: 'PatientChart',
+      component: PatientChart,
+      beforeEnter: requireAuth
+    },
+    {
+      path: '/dashboard/patients/unread-messages',
+      name: 'UnreadMessages',
+      component: UnreadMessages,
       beforeEnter: requireAuth
     }
 ]

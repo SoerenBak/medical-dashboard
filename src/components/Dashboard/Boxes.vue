@@ -14,14 +14,30 @@
             <p class="text-center font-semibold text-gray-800 dark:text-white">Add New Patient</p>
           </div>
         </router-link>
+
+        <router-link to="/dashboard/patients/patient-chart" class="dashboard-link">
+          <div class="flex flex-col items-center justify-center h-full bg-gray-200 dark:bg-gray-800">
+            <span class="material-icons text-4xl mb-2">bar_chart</span>
+            <p class="text-center font-semibold text-gray-800 dark:text-white">Patient Stats</p>
+          </div>
+        </router-link>
+
+        <router-link to="/dashboard/patients/unread-messages" class="dashboard-link">
+          <div class="flex flex-col items-center justify-center h-full bg-gray-200 dark:bg-gray-800">
+            <span class="material-icons text-4xl mb-2">mark_email_unread</span>
+            <p class="text-center font-semibold text-gray-800 dark:text-white">Messages</p>
+          </div>
+        </router-link>
+        
+       
       </nav>
     </div>
   </template>
   
   <script>
   export default {
-   
-  };
+
+  }
   </script>
   
   <style scoped>
