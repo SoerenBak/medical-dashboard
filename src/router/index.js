@@ -8,6 +8,7 @@ import AddPatient from '@/views/AddPatient.vue'
 import AddNote from '@/components/Patients/AddNote.vue'
 import AddAllergy from '@/components/Patients/AddAllergy.vue'
 import NoteDetails from '@/components/Patients/NoteDetails.vue'
+import AllergyDetails from '@/components/Patients/AllergyDetails.vue'
 
 // Route guard to ensure user is authenticated
 const requireAuth = (to, from, next) => {
@@ -59,13 +60,19 @@ const routes = [
       path: '/dashboard/patients/:id/notes/:noteId',
       name: 'NoteDetails',
       component: NoteDetails,
-      beforeEnter: requireAuth // Secure this route as well
-    }
+      beforeEnter: requireAuth
+    },
     {
       path: '/dashboard/patients/:id/add-allergy',
       name: 'AddAllergy',
       component: AddAllergy,
       beforeEnter: requireAuth 
+    },
+    {
+      path: '/dashboard/patients/:id/allergies/:allergyId',
+      name: 'AllergyDetails',
+      component: AllergyDetails,
+      beforeEnter: requireAuth
     }
 ]
 
