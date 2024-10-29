@@ -1,5 +1,6 @@
 # Patient Management System
 # Overview
+Please note: This project is a work in progress and is continually being improved with new features and enhancements.
 This Patient Management System is a web application designed to help healthcare providers manage patient information effectively. Built with Vue.js and Firebase, it offers a user-friendly interface for managing patient details, including personal information, medical history, allergies, and notes.
 
 # Features
