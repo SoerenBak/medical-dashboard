@@ -14,6 +14,15 @@
         required 
         class="border rounded p-2 mb-4 w-full"
       />
+      <div class="mb-4">
+        <input
+          v-model="noteDate"
+          type="date"
+          id="noteDate"
+          required
+          class="w-full p-2 border border-gray-300 rounded"
+        />
+      </div>
       <textarea 
         v-model="noteDetails" 
         placeholder="Note Details" 
@@ -42,6 +51,7 @@ export default {
     const route = useRoute(); // Get the current route to access the patient ID
     const noteAuthor = ref('');
     const noteName = ref('');
+    const noteDate = ref('');
     const noteDetails = ref('');
     const error = ref(null);
 
@@ -54,7 +64,7 @@ export default {
         // Prepare the note data
         const noteData = {
           NoteAuthor: noteAuthor.value,
-          NoteDate: new Date().toISOString(), // Current date
+          NoteDate: noteDate.value,
           NoteDetails: noteDetails.value,
           NoteName: noteName.value,
         };
@@ -73,7 +83,7 @@ export default {
       }
     };
 
-    return { noteAuthor, noteName, noteDetails, submitNote, error };
+    return { noteAuthor, noteName, noteDate, noteDetails, submitNote, error };
   },
 };
 </script>

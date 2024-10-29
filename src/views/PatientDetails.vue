@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <!-- Notes and Allergies Row -->
+      <!-- Notes, Allergies, and Medical History Row -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <!-- Notes Section -->
         <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
@@ -39,12 +39,14 @@
             <thead>
               <tr class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300">
                 <th class="px-4 py-2 text-left">Note Title</th>
+                <th class="px-4 py-2 text-left">Date</th>
                 <th class="px-4 py-2 text-left">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="note in notes" :key="note.id" class="border-t">
                 <td class="px-4 py-2 text-gray-600 dark:text-gray-300">{{ note.NoteName }}</td>
+                <td class="px-4 py-2 text-gray-600 dark:text-gray-300">{{ note.NoteDate }}</td>
                 <td class="px-4 py-2">
                   <router-link
                     :to="{ name: 'NoteDetails', params: { patientId: patientId, noteId: note.id } }"
@@ -55,7 +57,7 @@
                 </td>
               </tr>
               <tr v-if="!notes.length">
-                <td colspan="2" class="px-4 py-2 text-gray-600 dark:text-gray-400 text-center">No notes available</td>
+                <td colspan="3" class="px-4 py-2 text-gray-600 dark:text-gray-400 text-center">No notes available</td>
               </tr>
             </tbody>
           </table>
@@ -76,12 +78,14 @@
             <thead>
               <tr class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300">
                 <th class="px-4 py-2 text-left">Allergy</th>
+                <th class="px-4 py-2 text-left">Date</th>
                 <th class="px-4 py-2 text-left">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="allergy in allergies" :key="allergy.id" class="border-t">
                 <td class="px-4 py-2 text-gray-600 dark:text-gray-300">{{ allergy.AllergyName }}</td>
+                <td class="px-4 py-2 text-gray-600 dark:text-gray-300">{{ allergy.AllergyDate }}</td>
                 <td class="px-4 py-2">
                   <router-link
                     :to="{ name: 'AllergyDetails', params: { id: patientId, allergyId: allergy.id } }"
@@ -93,6 +97,45 @@
               </tr>
               <tr v-if="!allergies.length">
                 <td colspan="2" class="px-4 py-2 text-gray-600 dark:text-gray-400 text-center">No allergies available</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Medical History Section -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Medical History</h3>
+            <button
+              @click="goToAddMedicalHistory"
+              class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition duration-200"
+            >
+              Add Medical History
+            </button>
+          </div>
+          <table class="min-w-full mt-4">
+            <thead>
+              <tr class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300">
+                <th class="px-4 py-2 text-left">Medical Name</th>
+                <th class="px-4 py-2 text-left">Date</th>
+                <th class="px-4 py-2 text-left">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="history in medicalHistory" :key="history.id" class="border-t">
+                <td class="px-4 py-2 text-gray-600 dark:text-gray-300">{{ history.MedicalName }}</td>
+                <td class="px-4 py-2 text-gray-600 dark:text-gray-300">{{ history.MedicalDate }}</td>
+                <td class="px-4 py-2">
+                  <router-link
+                    :to="{ name: 'MedicalHistoryDetails', params: { patientId: patientId, historyId: history.id } }"
+                    class="text-blue-500 hover:underline"
+                  >
+                    View Details
+                  </router-link>
+                </td>
+              </tr>
+              <tr v-if="!medicalHistory.length">
+                <td colspan="4" class="px-4 py-2 text-gray-600 dark:text-gray-400 text-center">No medical history available</td>
               </tr>
             </tbody>
           </table>
@@ -120,6 +163,7 @@ export default {
     const error = ref(null);
     const notes = ref([]);
     const allergies = ref([]);
+    const medicalHistory = ref([]);
     const patientId = route.params.id;
 
     const loadPatient = async () => {
@@ -133,9 +177,9 @@ export default {
 
         patient.value = res.data();
 
-        // Load notes and allergies
         await loadNotes(patientId);
         await loadAllergies(patientId);
+        await loadMedicalHistory(patientId);
       } catch (err) {
         error.value = err.message;
       }
@@ -161,27 +205,38 @@ export default {
       }
     };
 
-    // Navigate to Add Note page
+    const loadMedicalHistory = async (patientId) => {
+      try {
+        const medicalHistoryRef = collection(projectFirestore, 'patients', patientId, 'MedicalHistory');
+        const medicalHistorySnapshot = await getDocs(medicalHistoryRef);
+        medicalHistory.value = medicalHistorySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      } catch (err) {
+        error.value = `Error fetching medical history: ${err.message}`;
+      }
+    };
+
     const goToAddNote = () => {
       router.push({ name: 'AddNote', params: { patientId: patientId } });
     };
 
-    // Navigate to Add Allergy page
     const goToAddAllergy = () => {
       router.push({ name: 'AddAllergy', params: { patientId: patientId } });
+    };
+
+    const goToAddMedicalHistory = () => {
+      router.push({ name: 'AddMedicalHistory', params: { patientId: patientId } });
     };
 
     onMounted(() => {
       loadPatient();
     });
 
-    return { patient, error, notes, allergies, patientId, goToAddNote, goToAddAllergy };
+    return { patient, error, notes, allergies, medicalHistory, patientId, goToAddNote, goToAddAllergy, goToAddMedicalHistory };
   },
 };
 </script>
 
 <style scoped>
-/* Style for table borders */
 table {
   border-collapse: collapse;
   width: 100%;

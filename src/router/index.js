@@ -11,14 +11,15 @@ import NoteDetails from '@/components/Patients/NoteDetails.vue'
 import AllergyDetails from '@/components/Patients/AllergyDetails.vue'
 import PatientChart from '@/components/Dashboard/PatientChart.vue'
 import UnreadMessages from '@/components/Dashboard/UnreadMessages.vue'
+import AddMedicalHistory from '@/views/Patients/AddMedicalHistory.vue'
+import MedicalHistoryDetails from '@/components/Patients/MedicalHistoryDetails.vue'
 
-// Route guard to ensure user is authenticated
 const requireAuth = (to, from, next) => {
    let user = projectAuth.currentUser
    if (!user) {
-      next({ name: 'Welcome' }) // Redirect to Welcome page if not authenticated
+      next({ name: 'Welcome' })
    } else {
-      next() // Proceed if authenticated
+      next()
    }
 }
 
@@ -87,7 +88,20 @@ const routes = [
       name: 'UnreadMessages',
       component: UnreadMessages,
       beforeEnter: requireAuth
-    }
+    },
+    {
+      path: '/patients/:patientId/medical-history/add',
+      name: 'AddMedicalHistory',
+      component: AddMedicalHistory,
+      beforeEnter: requireAuth
+    },
+    {
+      path: '/patients/:patientId/medical-history/:historyId',
+      name: 'MedicalHistoryDetails',
+      component: MedicalHistoryDetails,
+      beforeEnter: requireAuth,
+      props: true, 
+    },
 ]
 
 const router = createRouter({

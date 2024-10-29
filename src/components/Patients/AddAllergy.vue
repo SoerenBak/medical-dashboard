@@ -57,7 +57,7 @@
 
 <script>
 import { ref } from 'vue';
-import { projectFirestore } from '@/firebase/config';
+import { getFirestore, doc, collection, addDoc } from 'firebase/firestore';
 import { useRoute, useRouter } from 'vue-router';
 
 export default {
@@ -71,6 +71,8 @@ export default {
     const symptoms = ref('');
     const errorMessage = ref('');
 
+    const db = getFirestore(); // Initialize Firestore instance
+
     const submitAllergy = async () => {
       errorMessage.value = ''; // Reset any previous error messages
       const allergyData = {
@@ -81,11 +83,10 @@ export default {
       };
 
       try {
-        await projectFirestore
-          .collection('patients')
-          .doc(route.params.id)
-          .collection('Allergies')
-          .add(allergyData);
+        const patientRef = doc(db, 'patients', route.params.id); // Reference to patient document
+        const allergiesRef = collection(patientRef, 'Allergies'); // Reference to allergies sub-collection
+
+        await addDoc(allergiesRef, allergyData); // Add new document to Allergies collection
 
         // Clear the form fields after submission
         allergyName.value = '';
